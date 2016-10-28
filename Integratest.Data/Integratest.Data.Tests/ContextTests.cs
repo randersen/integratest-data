@@ -16,7 +16,7 @@ namespace Integratest.Data.Tests
         [TestMethod]
         public void Test()
         {
-            TestCaseTable.CreateTable();
+            //TestCaseTable.CreateTable();
             AccountsTable.CreateTable();
         }
 
