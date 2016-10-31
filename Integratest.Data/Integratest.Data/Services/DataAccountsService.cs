@@ -8,13 +8,14 @@ using Integratest.Data.DataModels;
 using Integratest.Data.Providers;
 using Integratest.Data.RequestModels;
 using Integratest.Data.Security;
+using Integratest.Data.ServiceInterfaces;
 
 namespace Integratest.Data.Services
 {
-    public class DataAccountsService
+    public class DataAccountsService : IDataAccountsService
     {
 
-        public static async Task<string> AddAccount(DataAccountsRequest account)
+        public  async Task<string> AddAccount(DataAccountsRequest account)
         {
             var accountDto = new AccountsDto()
             {
@@ -30,12 +31,12 @@ namespace Integratest.Data.Services
             return accountDto.Id;
         }
 
-        public static async Task<AccountsDto> GetAccountById(string id)
+        public  async Task<AccountsDto> GetAccountById(string id)
         {
             return await DynamoDbContextProvider.CurrentContext.LoadAsync<AccountsDto>(id);
         }
 
-        public static async Task<List<AccountsDto>> GetAccountByEmail(string email)
+        public  async Task<List<AccountsDto>> GetAccountByEmail(string email)
         {
             var dynamoDbConfig = new DynamoDBOperationConfig();
             dynamoDbConfig.IndexName = "Email-index";

@@ -16,6 +16,8 @@ namespace Integratest.Data.Tests
         [TestMethod]
         public void AddUser()
         {
+            var dataAccountsService = new DataAccountsService();
+
             var user = new DataAccountsRequest()
             {
                 CompanyName = "Number One",
@@ -23,11 +25,11 @@ namespace Integratest.Data.Tests
                 Password = "test1234"
             };
 
-           var id = DataAccountsService.AddAccount(user).Result;
+            var id = dataAccountsService.AddAccount(user).Result;
 
-            var returnedUser = DataAccountsService.GetAccountById(id);
+            var returnedUser = dataAccountsService.GetAccountById(id);
 
-            var otherReturnedUser = DataAccountsService.GetAccountByEmail(user.Email).Result.FirstOrDefault();
+            var otherReturnedUser = dataAccountsService.GetAccountByEmail(user.Email).Result.FirstOrDefault();
 
             var passwordHash = returnedUser.Result.PasswordHash;
 

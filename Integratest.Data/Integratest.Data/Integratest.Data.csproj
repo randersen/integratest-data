@@ -57,6 +57,7 @@
     <Compile Include="RequestModels\DataAccountsRequest.cs" />
     <Compile Include="Security\IntegraTestEncryption.cs" />
     <Compile Include="Security\StringExtensions.cs" />
+    <Compile Include="ServiceInterfaces\IDataAccountsService.cs" />
     <Compile Include="Services\DataAccountsService.cs" />
     <Compile Include="Tables\AccountsTable.cs" />
     <Compile Include="Tables\TableCreator.cs" />
