@@ -27,24 +27,48 @@ namespace Integratest.Data.Tables
             tableRequest.AttributeDefinitions.Add(new AttributeDefinition()
             {
                 AttributeName = "Id",
-                AttributeType = ScalarAttributeType.N
+                AttributeType = ScalarAttributeType.S
             });
             tableRequest.AttributeDefinitions.Add(new AttributeDefinition()
             {
                 AttributeName = "AccountId",
-                AttributeType = ScalarAttributeType.N
+                AttributeType = ScalarAttributeType.S
+            });
+
+            //add indexes
+            tableRequest.GlobalSecondaryIndexes.Add(new GlobalSecondaryIndex()
+            {
+                IndexName = "AccountId-index",
+                KeySchema = new List<KeySchemaElement>()
+                {
+                    new KeySchemaElement()
+                    {
+                        AttributeName = "AccountId",
+                        KeyType = KeyType.HASH
+
+                    }
+                },
+                ProvisionedThroughput = new ProvisionedThroughput()
+                {
+                    ReadCapacityUnits = 1,
+                    WriteCapacityUnits = 1
+                },
+                Projection = new Projection()
+                {
+                    ProjectionType = new ProjectionType("ALL")
+                }
             });
 
             //add key
             tableRequest.KeySchema.Add(new KeySchemaElement()
             {
-                AttributeName = "AccountId",
+                AttributeName = "Id",
                 KeyType = KeyType.HASH
             });
 
             tableRequest.KeySchema.Add(new KeySchemaElement()
             {
-                AttributeName = "Id",
+                AttributeName = "AccountId",
                 KeyType = KeyType.RANGE
             });
 

@@ -10,14 +10,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Integratest.Data.Tests
 {
     [TestClass]
-    public class ContextTests
+    public class TablesTests
     {
 
         [TestMethod]
         public void Test()
         {
             TestCaseTable.CreateTable();
-            AccountsTable.CreateTable();
+            //AccountsTable.CreateTable();
         }
 
     }

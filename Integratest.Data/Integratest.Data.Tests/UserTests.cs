@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Integratest.Data.RequestModels;
-using Integratest.Data.Security;
 using Integratest.Data.Services;
+using Integratest.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Integratest.Data.Tests

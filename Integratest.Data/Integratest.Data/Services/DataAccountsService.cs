@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,8 +8,8 @@ using Amazon.DynamoDBv2.DataModel;
 using Integratest.Data.DataModels;
 using Integratest.Data.Providers;
 using Integratest.Data.RequestModels;
-using Integratest.Data.Security;
 using Integratest.Data.ServiceInterfaces;
+using Integratest.Security;
 
 namespace Integratest.Data.Services
 {
@@ -17,6 +18,13 @@ namespace Integratest.Data.Services
 
         public  async Task<string> AddAccount(DataAccountsRequest account)
         {
+            var duplicateAccount = await GetAccountByEmail(account.Email);
+
+            if (duplicateAccount.Count > 0)
+            {
+                throw new DuplicateNameException($"Account alread exists with email: {account.Email}");
+            }
+
             var accountDto = new AccountsDto()
             {
                 CompanyName = account.CompanyName,
