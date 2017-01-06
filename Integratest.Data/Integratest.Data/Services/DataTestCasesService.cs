@@ -14,6 +14,12 @@ namespace Integratest.Data.Services
 {
     public class DataTestCasesService : IDataTestCaseService
     {
+        private Guid _accountId { get; }
+
+        public DataTestCasesService(Guid accountId)
+        {
+            _accountId = accountId;
+        }
 
         public async Task<string> AddTestCase(DataTestCaseRequest testCaseRequest)
         {
@@ -27,7 +33,7 @@ namespace Integratest.Data.Services
                 Title = testCaseRequest.Title
             };
           
-            var user = await new DataAccountsService().GetAccountById(testCase.AccountId);
+            var user = await new DataAccountsService(_accountId).GetAccountById(testCase.AccountId);
 
             if (user == null)
                 throw new KeyNotFoundException("AccountId does not exist");

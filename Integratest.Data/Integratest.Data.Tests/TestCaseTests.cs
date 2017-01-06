@@ -18,7 +18,7 @@ namespace Integratest.Data.Tests
         [TestMethod]
         public void AddTestCase()
         {
-            var dataTestCaseService = new DataTestCasesService();
+            var dataTestCaseService = new DataTestCasesService(new Guid());
 
             var testCase = new DataTestCaseRequest()
             {

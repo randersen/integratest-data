@@ -8,9 +8,8 @@ using Amazon.DynamoDBv2.Model;
 
 namespace Integratest.Data.Tables
 {
-    public class AccountsTable
+    public class IncrementsTable
     {
-
         public static void CreateTable()
         {
             //Instatiate table request and lists
@@ -19,49 +18,35 @@ namespace Integratest.Data.Tables
                 AttributeDefinitions = new List<AttributeDefinition>(),
                 GlobalSecondaryIndexes = new List<GlobalSecondaryIndex>(),
                 KeySchema = new List<KeySchemaElement>(),
-                TableName = "Accounts"
+                TableName = "Increments"
+
             };
 
             //add attributes
             tableRequest.AttributeDefinitions.Add(new AttributeDefinition()
             {
-                AttributeName = "Id",
+                AttributeName = "AccountId",
                 AttributeType = ScalarAttributeType.S
             });
             tableRequest.AttributeDefinitions.Add(new AttributeDefinition()
             {
-                AttributeName = "Email",
-                AttributeType = ScalarAttributeType.S
+                AttributeName = "TableName",
+                AttributeType = ScalarAttributeType.N
             });
-
-            tableRequest.GlobalSecondaryIndexes.Add(new GlobalSecondaryIndex()
-            {
-                IndexName = "Email-index",
-                KeySchema = new List<KeySchemaElement>()
-                {
-                    new KeySchemaElement()
-                    {
-                        AttributeName = "Email",
-                        KeyType = KeyType.HASH
-
-                    }
-                },
-                ProvisionedThroughput = new ProvisionedThroughput()
-                {
-                    ReadCapacityUnits = 1,
-                    WriteCapacityUnits = 1
-                },
-                Projection = new Projection()
-                {
-                    ProjectionType = new ProjectionType("ALL")
-                }
-            });
+            
 
             tableRequest.KeySchema.Add(new KeySchemaElement()
             {
-                AttributeName = "Id",
+                AttributeName = "AccountId",
                 KeyType = KeyType.HASH
             });
+            //add key
+            tableRequest.KeySchema.Add(new KeySchemaElement()
+            {
+                AttributeName = "TableName",
+                KeyType = KeyType.RANGE
+            });
+            
 
             //add throughput
             tableRequest.ProvisionedThroughput = new ProvisionedThroughput()
@@ -71,7 +56,8 @@ namespace Integratest.Data.Tables
             };
 
             TableCreator.CreateTable(tableRequest);
-        }
 
+
+        }
     }
 }

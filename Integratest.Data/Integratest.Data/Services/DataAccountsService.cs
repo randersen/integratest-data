@@ -10,13 +10,20 @@ using Integratest.Data.Providers;
 using Integratest.Data.RequestModels;
 using Integratest.Data.ServiceInterfaces;
 using Integratest.Security;
+using Integratest.Data;
 
 namespace Integratest.Data.Services
 {
     public class DataAccountsService : IDataAccountsService
     {
+        private Guid _accountId { get; }
 
-        public  async Task<string> AddAccount(DataAccountsRequest account)
+        public DataAccountsService(Guid accountId)
+        {
+            _accountId = accountId;
+        }
+
+        public async Task<string> AddAccount(DataAccountsRequest account)
         {
             var duplicateAccount = await GetAccountByEmail(account.Email);
 
@@ -39,12 +46,12 @@ namespace Integratest.Data.Services
             return accountDto.Id;
         }
 
-        public  async Task<AccountsDto> GetAccountById(string id)
+        public async Task<AccountsDto> GetAccountById(string id)
         {
             return await DynamoDbContextProvider.CurrentContext.LoadAsync<AccountsDto>(id);
         }
 
-        public  async Task<List<AccountsDto>> GetAccountByEmail(string email)
+        public async Task<List<AccountsDto>> GetAccountByEmail(string email)
         {
             var dynamoDbConfig = new DynamoDBOperationConfig();
             dynamoDbConfig.IndexName = "Email-index";
@@ -52,6 +59,12 @@ namespace Integratest.Data.Services
             return await DynamoDbContextProvider.CurrentContext.QueryAsync<AccountsDto>(email, operationConfig: dynamoDbConfig).GetRemainingAsync();
         }
 
+        public async Task<List<AccountsDto>> GetAccounts()
+        {
+            return await DynamoDbContextProvider.CurrentContext.ScanAsync<AccountsDto>(new List<ScanCondition>()).GetRemainingAsync();
+        }
+
 
     }
+
 }
