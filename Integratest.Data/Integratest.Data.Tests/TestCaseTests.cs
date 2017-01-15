@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Integratest.Data.Client;
 using Integratest.Data.DataModels;
 using Integratest.Data.RequestModels;
 using Integratest.Data.Services;
@@ -19,6 +20,8 @@ namespace Integratest.Data.Tests
         public void AddTestCase()
         {
             var dataTestCaseService = new DataTestCasesService(new Guid());
+
+            var client = DataClienService.Client.ForAccount().TestCases().AddTestCase()
 
             var testCase = new DataTestCaseRequest()
             {

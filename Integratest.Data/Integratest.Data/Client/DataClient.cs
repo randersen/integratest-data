@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Integratest.Data.ServiceInterfaces;
 using Integratest.Data.Services;
 
-namespace Integratest.Data
+namespace Integratest.Data.Client
 {
     public class DataClient
     {
@@ -31,10 +31,7 @@ namespace Integratest.Data
             return new DataIncrementsService();
         }
 
-        public static DataClient ForAccount(this DataClient dataClient, int accountid)
-        {
-            return new DataClient();
-        }
+        
     }
 
 
