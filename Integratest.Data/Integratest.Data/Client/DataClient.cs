@@ -10,7 +10,12 @@ namespace Integratest.Data.Client
 {
     public class DataClient
     {
-        public Guid AccountId { get; set; }
+        internal string AccountId { get; set; }
+
+        public DataClient(string accountId)
+        {
+            AccountId = accountId;
+        }
 
     }
 
@@ -26,10 +31,6 @@ namespace Integratest.Data.Client
             return new DataTestCasesService(dataClient.AccountId);
         }
 
-        public static DataIncrementsService Increments(this DataClient dataClient)
-        {
-            return new DataIncrementsService();
-        }
 
         
     }

@@ -14,17 +14,21 @@ using Integratest.Data;
 
 namespace Integratest.Data.Services
 {
-    public class DataAccountsService : IDataAccountsService
+    public class DataAccountsService : BaseDataService, IDataAccountsService
     {
-        private Guid _accountId { get; }
 
-        public DataAccountsService(Guid accountId)
+        public DataAccountsService(string accountId)
         {
-            _accountId = accountId;
+            this.AccountId = accountId;
         }
 
         public async Task<string> AddAccount(DataAccountsRequest account)
         {
+            if (!await GetIsEmployee())
+            {
+                throw new Exception("User does not have access to this resource");
+            }
+
             var duplicateAccount = await GetAccountByEmail(account.Email);
 
             if (duplicateAccount.Count > 0)
@@ -46,13 +50,30 @@ namespace Integratest.Data.Services
             return accountDto.Id;
         }
 
+        public async Task<bool> GetIsEmployee()
+        {
+            var user = await DynamoDbContextProvider.CurrentContext.LoadAsync<AccountsDto>(AccountId);
+
+            return user.IsEmployee;
+        }
+
         public async Task<AccountsDto> GetAccountById(string id)
         {
+            if (!await GetIsEmployee())
+            {
+                throw new Exception("User does not have access to this resource");
+            }
+
             return await DynamoDbContextProvider.CurrentContext.LoadAsync<AccountsDto>(id);
         }
 
         public async Task<List<AccountsDto>> GetAccountByEmail(string email)
         {
+            if (!await GetIsEmployee())
+            {
+                throw new Exception("User does not have access to this resource");
+            }
+
             var dynamoDbConfig = new DynamoDBOperationConfig();
             dynamoDbConfig.IndexName = "Email-index";
 
@@ -61,6 +82,11 @@ namespace Integratest.Data.Services
 
         public async Task<List<AccountsDto>> GetAccounts()
         {
+            if (!await GetIsEmployee())
+            {
+                throw new Exception("User does not have access to this resource");
+            }
+
             return await DynamoDbContextProvider.CurrentContext.ScanAsync<AccountsDto>(new List<ScanCondition>()).GetRemainingAsync();
         }
 

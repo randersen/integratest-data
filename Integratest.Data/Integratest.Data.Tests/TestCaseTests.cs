@@ -17,30 +17,28 @@ namespace Integratest.Data.Tests
     public class TestCaseTests
     {
         [TestMethod]
-        public void AddTestCase()
+        public async Task AddTestCase()
         {
-            var dataTestCaseService = new DataTestCasesService(new Guid());
 
-            var client = DataClienService.Client.ForAccount().TestCases().AddTestCase()
+            var client = new DataClient("664ca358-3ae8-4d79-9554-682d21a01467").TestCases();
 
             var testCase = new DataTestCaseRequest()
             {
-                AccountId = Guid.Parse("2c99f5f0-002a-41e3-8de6-0aa81f2c9907"),
                 Title = "Our First TestCase"
             };
 
-            var id = dataTestCaseService.AddTestCase(testCase).Result;
+            var id = client.AddTestCase(testCase).Result;
 
-            var returnedTestCase = dataTestCaseService.GetTestCase(id, testCase.AccountId.ToString()).Result;
+            var returnedTestCase = client.GetTestCase(id).Result;
 
-            Assert.AreEqual(testCase.AccountId.ToString(), returnedTestCase.AccountId);
+            Assert.AreEqual(client.AccountId.ToString(), returnedTestCase.AccountId);
             Assert.AreEqual(testCase.Title.ToString(), returnedTestCase.Title);
 
-            dataTestCaseService.DeleteTestCase(id, testCase.AccountId.ToString());
+            await client.DeleteTestCase(id).ConfigureAwait(false);
 
             Thread.Sleep(1000);
 
-            var deletedTestCase = dataTestCaseService.GetTestCase(id, testCase.AccountId.ToString()).Result;
+            var deletedTestCase = client.GetTestCase(id).Result;
 
             Assert.IsNull(deletedTestCase);
         }

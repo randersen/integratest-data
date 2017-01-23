@@ -12,28 +12,24 @@ using Integratest.Security;
 
 namespace Integratest.Data.Services
 {
-    public class DataTestCasesService : IDataTestCaseService
+    public class DataTestCasesService : BaseDataService, IDataTestCaseService
     {
-        private Guid _accountId { get; }
 
-        public DataTestCasesService(Guid accountId)
+        public DataTestCasesService(string accountId)
         {
-            _accountId = accountId;
+            AccountId = accountId;
         }
 
         public async Task<string> AddTestCase(DataTestCaseRequest testCaseRequest)
         {
-            if (testCaseRequest.AccountId == null)
-                throw new ArgumentNullException(nameof(testCaseRequest.AccountId));
-
             var testCase = new TestCasesDto()
             {
-                AccountId = testCaseRequest.AccountId.ToString(),
+                AccountId = AccountId,
                 Id = Guid.NewGuid().ToString(),
                 Title = testCaseRequest.Title
             };
           
-            var user = await new DataAccountsService(_accountId).GetAccountById(testCase.AccountId);
+            var user = await new DataAccountsService(AccountId).GetAccountById(testCase.AccountId);
 
             if (user == null)
                 throw new KeyNotFoundException("AccountId does not exist");
@@ -43,22 +39,22 @@ namespace Integratest.Data.Services
             return testCase.Id;
         }
 
-        public async Task<TestCasesDto> GetTestCase(string id, string accountId)
+        public async Task<TestCasesDto> GetTestCase(string id)
         {
-            return await DynamoDbContextProvider.CurrentContext.LoadAsync<TestCasesDto>(id, rangeKey: accountId);
+            return await DynamoDbContextProvider.CurrentContext.LoadAsync<TestCasesDto>(id, rangeKey: AccountId);
         }
 
-        public async Task<List<TestCasesDto>> GetTestCasesForAccount(string accountId)
+        public async Task<List<TestCasesDto>> GetTestCasesForAccount()
         {
             var dynamoDbConfig = new DynamoDBOperationConfig();
             dynamoDbConfig.IndexName = "AccountId-index";
 
-            return await DynamoDbContextProvider.CurrentContext.QueryAsync<TestCasesDto>(accountId, operationConfig: dynamoDbConfig).GetRemainingAsync();
+            return await DynamoDbContextProvider.CurrentContext.QueryAsync<TestCasesDto>(AccountId, operationConfig: dynamoDbConfig).GetRemainingAsync();
         }
 
-        public async Task DeleteTestCase(string id, string accountId)
+        public async Task DeleteTestCase(string id)
         {
-            await DynamoDbContextProvider.CurrentContext.DeleteAsync<TestCasesDto>(id, rangeKey: accountId);
+            await DynamoDbContextProvider.CurrentContext.DeleteAsync<TestCasesDto>(id, rangeKey: AccountId);
         }
 
 

@@ -16,6 +16,7 @@ namespace Integratest.Data.DataModels
         public string CompanyName { get; set; }
         public string PasswordHash { get; set; }
         public List<string> Roles { get; set; }
+        public bool IsEmployee { get; set; }
 
 
 

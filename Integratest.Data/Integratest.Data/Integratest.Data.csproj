@@ -67,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\DataClient.cs" />
-    <Compile Include="Client\DataClienService.cs" />
     <Compile Include="DataModels\AccountsDto.cs" />
     <Compile Include="DataModels\IncrementsModel.cs" />
     <Compile Include="DataModels\TestCaseDto.cs" />
@@ -77,6 +76,7 @@
     <Compile Include="RequestModels\DataTestCaseRequest.cs" />
     <Compile Include="ServiceInterfaces\IDataAccountsService.cs" />
     <Compile Include="ServiceInterfaces\IDataTestCaseRequestService.cs" />
+    <Compile Include="Services\BaseDataService.cs" />
     <Compile Include="Services\DataIncrementsService.cs" />
     <Compile Include="Services\DataTestCasesService.cs" />
     <Compile Include="Services\DataAccountsService.cs" />

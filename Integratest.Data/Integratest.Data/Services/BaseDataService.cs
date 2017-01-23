@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Integratest.Data.RequestModels
+namespace Integratest.Data.Services
 {
-    public class DataTestCaseRequest
+    public class BaseDataService
     {
-        public string Title { get; set; }
+        public string AccountId { get; set; }
 
     }
 }

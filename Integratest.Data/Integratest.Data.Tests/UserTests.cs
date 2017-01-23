@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Integratest.Data.Client;
 using Integratest.Data.RequestModels;
 using Integratest.Data.Services;
 using Integratest.Security;
@@ -17,7 +18,7 @@ namespace Integratest.Data.Tests
         public void AddUser()
         {
 
-            var accountClient = new DataClient().Accounts();
+            var accountClient = new DataClient("664ca358-3ae8-4d79-9554-682d21a01467").Accounts();
 
             var user = new DataAccountsRequest()
             {

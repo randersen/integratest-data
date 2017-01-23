@@ -11,9 +11,9 @@ namespace Integratest.Data.ServiceInterfaces
     public interface IDataTestCaseService
     {
         Task<string> AddTestCase(DataTestCaseRequest testCaseRequest);
-        Task<TestCasesDto> GetTestCase(string id, string accountId);
-        Task<List<TestCasesDto>> GetTestCasesForAccount(string accountId);
-        Task DeleteTestCase(string id, string accountId);
+        Task<TestCasesDto> GetTestCase(string id);
+        Task<List<TestCasesDto>> GetTestCasesForAccount();
+        Task DeleteTestCase(string id);
 
 
     }
