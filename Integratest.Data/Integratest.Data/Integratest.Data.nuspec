@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>IntegraTest-Data</id>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <authors>IntegraTest-Data</authors>
     <owners>IntegraTest</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

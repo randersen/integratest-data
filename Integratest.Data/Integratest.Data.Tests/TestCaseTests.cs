@@ -42,6 +42,5 @@ namespace Integratest.Data.Tests
 
             Assert.IsNull(deletedTestCase);
         }
-
     }
 }
